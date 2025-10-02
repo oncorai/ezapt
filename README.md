@@ -1,4 +1,4 @@
-# EzApt - Apartment Deals Aggregator
+# RentDeals - Apartment Deals Aggregator
 
 Find apartment move-in deals worth $1,000s that most renters miss.
 
@@ -40,9 +40,9 @@ Change the password to something secure before deploying!
 1. **Push to GitHub:**
    ```bash
    git add .
-   git commit -m "Initial commit: EzApt MVP"
+   git commit -m "Initial commit: RentDeals MVP"
    git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/ezapt.git
+   git remote add origin https://github.com/YOUR_USERNAME/rentdeals.git
    git push -u origin main
    ```
 
@@ -116,7 +116,7 @@ Vercel will automatically redeploy!
 ## Project Structure
 
 ```
-ezapt/
+rentdeals/
 ├── app/
 │   ├── layout.tsx          # Root layout with Analytics
 │   ├── page.tsx            # Landing page

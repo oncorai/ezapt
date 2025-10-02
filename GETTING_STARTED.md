@@ -1,4 +1,4 @@
-# Getting Started with EzApt
+# Getting Started with RentDeals
 
 ## Your MVP is Ready! 🎉
 

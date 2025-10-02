@@ -1,47 +1,50 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import { v4 as uuidv4 } from 'uuid';
 import type { Deal, EmailSignup, DealFormData } from './types';
 import { calculateEffectiveRent } from './utils';
 
-// KV Storage Keys
+// Initialize Upstash Redis client
+const redis = Redis.fromEnv();
+
+// Storage Keys
 const DEALS_KEY = 'deals';
 const EMAILS_KEY = 'emails';
 
-// Data operations using Vercel KV
+// Data operations using Upstash Redis
 async function getDealsFromKV(): Promise<Deal[]> {
   try {
-    const deals = await kv.get<Deal[]>(DEALS_KEY);
+    const deals = await redis.get<Deal[]>(DEALS_KEY);
     return deals || [];
   } catch (error) {
-    console.error('Error reading deals from KV:', error);
+    console.error('Error reading deals from Redis:', error);
     return [];
   }
 }
 
 async function setDealsInKV(deals: Deal[]): Promise<void> {
   try {
-    await kv.set(DEALS_KEY, deals);
+    await redis.set(DEALS_KEY, deals);
   } catch (error) {
-    console.error('Error writing deals to KV:', error);
+    console.error('Error writing deals to Redis:', error);
     throw error;
   }
 }
 
 async function getEmailsFromKV(): Promise<EmailSignup[]> {
   try {
-    const emails = await kv.get<EmailSignup[]>(EMAILS_KEY);
+    const emails = await redis.get<EmailSignup[]>(EMAILS_KEY);
     return emails || [];
   } catch (error) {
-    console.error('Error reading emails from KV:', error);
+    console.error('Error reading emails from Redis:', error);
     return [];
   }
 }
 
 async function setEmailsInKV(emails: EmailSignup[]): Promise<void> {
   try {
-    await kv.set(EMAILS_KEY, emails);
+    await redis.set(EMAILS_KEY, emails);
   } catch (error) {
-    console.error('Error writing emails to KV:', error);
+    console.error('Error writing emails to Redis:', error);
     throw error;
   }
 }

@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'EzApt - Find Apartment Move-In Deals Worth $1,000s',
+  title: 'RentDeals - Find Apartment Move-In Deals Worth $1,000s',
   description: 'Discover apartment move-in specials and deals that most renters miss. Save thousands on your next apartment.',
 }
 

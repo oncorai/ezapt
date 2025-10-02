@@ -1,9 +1,9 @@
-# EzApt - Apartment Deals Aggregator
+# RentDeals - Apartment Deals Aggregator
 ## Project Plan & Implementation Guide
 
 ## Executive Summary
 
-EzApt is a web application that aggregates apartment move-in deals (e.g., "8 weeks free," "2 months free rent") from apartments.com to help renters discover special offers they might otherwise miss.
+RentDeals is a web application that aggregates apartment move-in deals (e.g., "8 weeks free," "2 months free rent") from apartments.com to help renters discover special offers they might otherwise miss.
 
 **Critical Approach:**
 - Deploy to Vercel on Day 1 (avoid environment issues)
@@ -33,7 +33,7 @@ EzApt is a web application that aggregates apartment move-in deals (e.g., "8 wee
 
 **Project Structure:**
 ```
-ezapt/
+rentdeals/
 ├── app/
 │   ├── layout.tsx          # Root layout with Analytics
 │   ├── globals.css         # Tailwind styles

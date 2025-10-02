@@ -15,7 +15,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <Link href="/" className="text-2xl font-bold text-blue-600">
-              EzApt
+              RentDeals
             </Link>
             <div className="flex gap-6">
               <Link href="/about" className="text-gray-600 hover:text-blue-600">
@@ -128,14 +128,14 @@ export default async function Home() {
           </ul>
           <p className="text-gray-600">
             These deals can save you <strong>$1,000-$5,000+</strong> on your annual rent, but they&apos;re often buried
-            in listings or only mentioned in fine print. EzApt finds them for you.
+            in listings or only mentioned in fine print. RentDeals finds them for you.
           </p>
         </div>
 
         {/* Trust Indicators */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-16">
           <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
-            Why Trust EzApt?
+            Why Trust RentDeals?
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
             <div className="flex items-start gap-3">
@@ -173,14 +173,14 @@ export default async function Home() {
         {/* Footer */}
         <footer className="text-center text-gray-500 text-sm py-8 border-t border-gray-200">
           <p className="mb-2">
-            EzApt is not affiliated with Apartments.com. All deals are subject to availability and verification.
+            RentDeals is not affiliated with Apartments.com. All deals are subject to availability and verification.
           </p>
           <p>
             Always verify deal details directly with the property before making any commitments.
           </p>
           <div className="mt-4">
             <Link href="/about" className="text-blue-600 hover:underline">
-              Learn More About EzApt
+              Learn More About RentDeals
             </Link>
           </div>
         </footer>

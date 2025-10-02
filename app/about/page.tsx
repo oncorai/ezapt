@@ -8,7 +8,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <Link href="/" className="text-2xl font-bold text-blue-600">
-              EzApt
+              RentDeals
             </Link>
             <div className="flex gap-6">
               <Link href="/" className="text-gray-600 hover:text-blue-600">
@@ -24,7 +24,7 @@ export default function AboutPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">
-          About EzApt
+          About RentDeals
         </h1>
 
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
@@ -32,7 +32,7 @@ export default function AboutPage() {
             What We Do
           </h2>
           <p className="text-gray-600 mb-4">
-            EzApt helps renters discover apartment move-in specials and deals that they might otherwise miss.
+            RentDeals helps renters discover apartment move-in specials and deals that they might otherwise miss.
             We aggregate special offers like &quot;8 weeks free&quot; or &quot;2 months free rent&quot; from apartments.com
             and other sources, making it easy to find and compare the best deals in your area.
           </p>
@@ -87,7 +87,7 @@ export default function AboutPage() {
 
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            How to Use EzApt
+            How to Use RentDeals
           </h2>
           <div className="space-y-4 text-gray-600">
             <div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
               <strong>Always verify deals directly with the property.</strong> Deals can change or expire without notice.
             </li>
             <li>
-              EzApt is not affiliated with apartments.com or any apartment community listed on this site.
+              RentDeals is not affiliated with apartments.com or any apartment community listed on this site.
             </li>
             <li>
               We provide information for convenience only. Always read the lease terms carefully before signing.
@@ -150,9 +150,9 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-6">
             <div>
-              <h3 className="font-bold text-gray-900 mb-2">Is EzApt free to use?</h3>
+              <h3 className="font-bold text-gray-900 mb-2">Is RentDeals free to use?</h3>
               <p className="text-gray-600">
-                Yes! EzApt is completely free for renters. We never charge to search for or view deals.
+                Yes! RentDeals is completely free for renters. We never charge to search for or view deals.
               </p>
             </div>
             <div>
