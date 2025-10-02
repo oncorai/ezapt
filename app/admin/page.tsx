@@ -44,7 +44,8 @@ export default function AdminPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simple client-side check - in production, use proper authentication
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === 'admin123') {
+    // Temporary hardcoded password for MVP testing
+    if (password === 'ezapt2025') {
       setAuthenticated(true);
       setError('');
     } else {
