@@ -1,46 +1,71 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { kv } from '@vercel/kv';
 import { v4 as uuidv4 } from 'uuid';
-import type { Deal, EmailSignup, DataStore, DealFormData } from './types';
+import type { Deal, EmailSignup, DealFormData } from './types';
 import { calculateEffectiveRent } from './utils';
 
-const DATA_FILE = path.join(process.cwd(), 'lib', 'data', 'deals.json');
+// KV Storage Keys
+const DEALS_KEY = 'deals';
+const EMAILS_KEY = 'emails';
 
-// File operations
-async function readData(): Promise<DataStore> {
+// Data operations using Vercel KV
+async function getDealsFromKV(): Promise<Deal[]> {
   try {
-    const fileContent = await fs.readFile(DATA_FILE, 'utf-8');
-    return JSON.parse(fileContent);
+    const deals = await kv.get<Deal[]>(DEALS_KEY);
+    return deals || [];
   } catch (error) {
-    // If file doesn't exist or is invalid, return empty structure
-    return { deals: [], emails: [] };
+    console.error('Error reading deals from KV:', error);
+    return [];
   }
 }
 
-async function writeData(data: DataStore): Promise<void> {
-  await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+async function setDealsInKV(deals: Deal[]): Promise<void> {
+  try {
+    await kv.set(DEALS_KEY, deals);
+  } catch (error) {
+    console.error('Error writing deals to KV:', error);
+    throw error;
+  }
+}
+
+async function getEmailsFromKV(): Promise<EmailSignup[]> {
+  try {
+    const emails = await kv.get<EmailSignup[]>(EMAILS_KEY);
+    return emails || [];
+  } catch (error) {
+    console.error('Error reading emails from KV:', error);
+    return [];
+  }
+}
+
+async function setEmailsInKV(emails: EmailSignup[]): Promise<void> {
+  try {
+    await kv.set(EMAILS_KEY, emails);
+  } catch (error) {
+    console.error('Error writing emails to KV:', error);
+    throw error;
+  }
 }
 
 // Deal CRUD operations
 export async function getAllDeals(): Promise<Deal[]> {
-  const data = await readData();
-  return data.deals.filter(deal => deal.is_active);
+  const deals = await getDealsFromKV();
+  return deals.filter(deal => deal.is_active);
 }
 
 export async function getDealsByCity(city: string): Promise<Deal[]> {
-  const data = await readData();
-  return data.deals.filter(
+  const deals = await getDealsFromKV();
+  return deals.filter(
     deal => deal.is_active && deal.city.toLowerCase() === city.toLowerCase()
   );
 }
 
 export async function getDealById(id: string): Promise<Deal | null> {
-  const data = await readData();
-  return data.deals.find(deal => deal.id === id) || null;
+  const deals = await getDealsFromKV();
+  return deals.find(deal => deal.id === id) || null;
 }
 
 export async function addDeal(formData: DealFormData): Promise<Deal> {
-  const data = await readData();
+  const deals = await getDealsFromKV();
 
   const effectiveRent = calculateEffectiveRent(
     formData.regular_rent,
@@ -55,19 +80,19 @@ export async function addDeal(formData: DealFormData): Promise<Deal> {
     is_active: true,
   };
 
-  data.deals.push(newDeal);
-  await writeData(data);
+  deals.push(newDeal);
+  await setDealsInKV(deals);
 
   return newDeal;
 }
 
 export async function updateDeal(id: string, formData: Partial<DealFormData>): Promise<Deal | null> {
-  const data = await readData();
-  const dealIndex = data.deals.findIndex(deal => deal.id === id);
+  const deals = await getDealsFromKV();
+  const dealIndex = deals.findIndex(deal => deal.id === id);
 
   if (dealIndex === -1) return null;
 
-  const existingDeal = data.deals[dealIndex];
+  const existingDeal = deals[dealIndex];
   const updatedDeal: Deal = {
     ...existingDeal,
     ...formData,
@@ -81,31 +106,31 @@ export async function updateDeal(id: string, formData: Partial<DealFormData>): P
     );
   }
 
-  data.deals[dealIndex] = updatedDeal;
-  await writeData(data);
+  deals[dealIndex] = updatedDeal;
+  await setDealsInKV(deals);
 
   return updatedDeal;
 }
 
 export async function deleteDeal(id: string): Promise<boolean> {
-  const data = await readData();
-  const dealIndex = data.deals.findIndex(deal => deal.id === id);
+  const deals = await getDealsFromKV();
+  const dealIndex = deals.findIndex(deal => deal.id === id);
 
   if (dealIndex === -1) return false;
 
   // Soft delete by marking as inactive
-  data.deals[dealIndex].is_active = false;
-  await writeData(data);
+  deals[dealIndex].is_active = false;
+  await setDealsInKV(deals);
 
   return true;
 }
 
 // Email operations
 export async function addEmail(email: string, city: string): Promise<EmailSignup> {
-  const data = await readData();
+  const emails = await getEmailsFromKV();
 
   // Check if email already exists
-  const existingEmail = data.emails.find(e => e.email === email);
+  const existingEmail = emails.find(e => e.email === email);
   if (existingEmail) {
     return existingEmail;
   }
@@ -116,27 +141,27 @@ export async function addEmail(email: string, city: string): Promise<EmailSignup
     subscribed_at: new Date().toISOString(),
   };
 
-  data.emails.push(newEmail);
-  await writeData(data);
+  emails.push(newEmail);
+  await setEmailsInKV(emails);
 
   return newEmail;
 }
 
 export async function getAllEmails(): Promise<EmailSignup[]> {
-  const data = await readData();
-  return data.emails;
+  return await getEmailsFromKV();
 }
 
 // Stats
 export async function getStats() {
-  const data = await readData();
-  const activeDeals = data.deals.filter(deal => deal.is_active);
+  const deals = await getDealsFromKV();
+  const emails = await getEmailsFromKV();
+  const activeDeals = deals.filter(deal => deal.is_active);
 
   if (activeDeals.length === 0) {
     return {
       totalDeals: 0,
       averageSavings: 0,
-      totalEmails: data.emails.length,
+      totalEmails: emails.length,
       citiesCovered: 0,
     };
   }
@@ -150,7 +175,7 @@ export async function getStats() {
   return {
     totalDeals: activeDeals.length,
     averageSavings: Math.round(totalSavings / activeDeals.length * 12), // Annual savings
-    totalEmails: data.emails.length,
+    totalEmails: emails.length,
     citiesCovered: cities.size,
   };
 }
